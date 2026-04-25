@@ -5,10 +5,9 @@ Replaces run_overnight.bat entirely. Pure Python -- no CMD batch quirks,
 no phase ordering issues, no output buffering surprises.
 
 HOW TO USE:
-    1. Place this file inside the piticot-nash\ folder (same level as README.md)
-    2. Open Command Prompt and cd into that folder:
-           cd C:/path/to/piticot-nash
-    3. Run it:
+    1. Open Command Prompt and cd into that folder:
+           cd C:/path/to/pit2.0
+    2. Run it:
            python run_overnight.py
        All output prints to the screen AND is saved to run_overnight.log simultaneously.
 
