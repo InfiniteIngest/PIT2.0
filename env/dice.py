@@ -6,11 +6,10 @@ Each turn the agent has three possible dice actions:
   Action 1: CHOOSE_2     -- declare a roll of exactly 2
   Action 2: CHOOSE_3     -- declare a roll of exactly 3
 
-The 2/3 choice is the agent's "safe move" -- it trades randomness for
-control, at the cost of potentially slower progress.
+The 2/3 choice is the agent's "safe move", it trades randomness for
+control at the cost of potentially slower progress.
 
-We use numpy's PCG64 generator (superior statistical properties vs
-Python's Mersenne Twister) for all random rolls.
+Using numpy's PCG64 generator for all random rolls.
 """
 
 from enum import IntEnum
@@ -38,9 +37,6 @@ class DiceEngine:
     """
 
     def __init__(self, seed: int | None = None):
-        # PCG64 is the default BitGenerator in modern numpy.
-        # It has excellent statistical properties and passes
-        # TestU01's BigCrush suite -- far better than Mersenne Twister.
         self.rng = np.random.default_rng(seed)
         self._seed = seed
 
