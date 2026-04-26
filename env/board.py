@@ -92,7 +92,6 @@ def is_terminal(resolved: ResolvedSquare) -> bool:
 
 
 def describe_square(pos: int) -> str:
-    """Human-readable description of a square's effect."""
     if pos not in SPECIAL_SQUARES:
         return f"Square {pos}: normal"
     effect, dest = SPECIAL_SQUARES[pos]
