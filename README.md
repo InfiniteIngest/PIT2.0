@@ -657,6 +657,7 @@ Phase 4 dynamic runs have `"moral_weight": null` and a `"schedule"` field instea
 
 ## 11. Understanding the Plots
 
+![Logo](assets/outcome_rates.png)
 ### `outcome_rates.png`
 
 **What it shows:** Three lines (Win, Solo Loss, Mutual Loss) plotted against moral weight. Uses only self-play runs, last 20% of training (the converged period). This is the primary dose-response chart.
@@ -665,6 +666,7 @@ Phase 4 dynamic runs have `"moral_weight": null` and a `"schedule"` field instea
 
 **The mutual loss line** should decline gradually from left to right. In the actual data this goes from approximately 1.4% at MW=0 to 0.7% at MW=2.0. The effect is real but modest in absolute terms, the self-play environment's competitive structure is doing most of the spite suppression, with moral weight providing a secondary layer.
 
+![Logo](assets/square24_targeting.png)
 ### `square24_targeting.png`
 
 **What it shows:** For each moral weight, the rolling average M24 rate measured only for episodes where the agent was **losing** i.e., where spite would be strategically motivated. This is the Nash Equilibrium detection chart.
