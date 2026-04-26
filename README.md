@@ -410,7 +410,7 @@ The timestamp is the moment the run started. Multiple runs with the same paramet
 
 **Configuration:** Two runs. Run 1: mode = self_play, MW = 0.0, episodes = 200,000, seed = 42. Run 2: mode = vs_random, MW = 0.0, episodes = 200,000, seed = 42.
 
-**What it measures:** The difference between the equilibrium a competitive environment produces versus a passive one. Same agent, same moral weight, same seed — only the opponent type differs.
+**What it measures:** The difference between the equilibrium a competitive environment produces versus a passive one. Same agent, same moral weight, same seed but the opponent type differs.
 
 **Empirical result:** Self-play: M24 = 2.94%, win = 91.76%. vs_random: M24 = 76.78%, win = 15.79%. Cohen's h = 1.79 (p < 2.2e-16).
 
@@ -459,7 +459,7 @@ The timestamp is the moment the run started. Multiple runs with the same paramet
 | shock | Fixed 0.0 | Fixed 1.0 (sudden guilt introduction) |
 | cynicism | Fixed 1.0 | Fixed 0.0 (sudden guilt removal) |
 
-**The moral hysteresis question:** If guilt introduction (shock) and guilt removal (cynicism) produce symmetrical response speeds, the Q-table adapts evenly in both directions. If the responses are asymmetric, the Q-table structure provides directional inertia ( this is what I call moral hysteresis).
+**The moral hysteresis question:** If guilt introduction (shock) and guilt removal (cynicism) produce symmetrical response speeds, the Q-table adapts evenly in both directions. If the responses are asymmetric, the Q-table structure provides directional inertia.
 
 **Run IDs:** Named `dynamic_{schedule}_{timestamp}` rather than `mw{weight}_{mode}_{timestamp}`. The `moral_weight` field in metadata JSON is `null` for Phase 4 runs; the `schedule` field specifies which dynamic schedule was used.
 
