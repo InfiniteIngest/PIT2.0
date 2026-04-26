@@ -10,7 +10,7 @@ This project investigates a precise and ethically significant question in AI res
 
 A Q-learning agent is trained across 5.25 million total episodes under systematic variation of a guilt parameter (`moral_weight`), the type of opponent it faces, and the temporal structure of how moral weight is applied. The experiment connects empirical reinforcement learning results directly to John Nash's game-theoretic framework, deriving a theoretical rationality threshold and then testing it against observed agent behaviour.
 
-**Key finding in one sentence:** An amoral agent converges to a spite-dominant equilibrium within 10,000 episodes against passive opponents (91.3% mutual loss in calibration), moral encoding suppresses this but with a theoretically derived rationality threshold at MW=1.1, and the same agent at identical moral weight produces spite rates of 49.3% against passive opponents versus 1.4% in competitive self-play this 35-fold difference demonstrates that safety is a property of the agent-environment system, not the agent alone.
+**Key finding in one sentence:** An amoral agent converges to a spite-dominant equilibrium within 10,000 episodes against passive opponents (91.3% mutual loss in calibration), moral encoding suppresses this but with a theoretically derived rationality threshold at MW=1.1, and the same agent at identical moral weight produces spite rates of 49.3% against passive opponents versus 1.4% in competitive self-play. This 35-fold difference demonstrates that safety is a property of the agent-environment system, not the agent alone.
 
 ---
 
