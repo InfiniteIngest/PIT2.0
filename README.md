@@ -661,23 +661,21 @@ Phase 4 dynamic runs have `"moral_weight": null` and a `"schedule"` field instea
 
 **What it shows:** Three lines (Win, Solo Loss, Mutual Loss) plotted against moral weight. Uses only self-play runs, last 20% of training (the converged period). This is the primary dose-response chart.
 
-**The win line** should be high and flat — approximately 93-95% across all moral weights. This confirms moral encoding does not hurt competitiveness.
+**The win line** should be high and flat: approximately 93-95% across all moral weights. This confirms moral encoding does not hurt competitiveness.
 
-**The mutual loss line** should decline gradually from left to right. In the actual data this goes from approximately 1.4% at MW=0 to 0.7% at MW=2.0. The effect is real but modest in absolute terms — the self-play environment's competitive structure is doing most of the spite suppression, with moral weight providing a secondary layer.
-
-**Important note about earlier broken versions of this chart:** Previous versions mixed self-play runs with vs_random and vs_uniform runs at the same MW value, producing a giant orange vertical band at x=0.0 because M24 rates ranged from 2% to 91% at the same MW depending on mode. The fix was filtering to self-play only. The current version is correct.
+**The mutual loss line** should decline gradually from left to right. In the actual data this goes from approximately 1.4% at MW=0 to 0.7% at MW=2.0. The effect is real but modest in absolute terms, the self-play environment's competitive structure is doing most of the spite suppression, with moral weight providing a secondary layer.
 
 ### `square24_targeting.png`
 
-**What it shows:** For each moral weight, the rolling average M24 rate measured only for episodes where the agent was **losing** — i.e., where spite would be strategically motivated. This is the Nash Equilibrium detection chart.
+**What it shows:** For each moral weight, the rolling average M24 rate measured only for episodes where the agent was **losing** i.e., where spite would be strategically motivated. This is the Nash Equilibrium detection chart.
 
 **What the plot reveals about this specific experiment:**
 
-All lines start high (50-60%) because early training involves random exploration. They drop sharply within the first 10,000-20,000 episodes as the agent learns winning is preferable to spite in competitive self-play. After this initial learning phase, the curves separate by moral weight: the MW=0.0 line (darkest, typically dark blue or purple) maintains the highest plateau, while higher moral weight lines sit progressively lower.
+All lines start high (50-60%) because early training involves random exploration. They drop sharply within the first 10,000-20,000 episodes as the agent learns winning is preferable to spite in competitive self-play. After this initial learning phase, the curves separate by moral weight: the MW=0.0 line (darkest) maintains the highest plateau, while higher moral weight lines sit progressively lower.
 
 **A stable plateau = Nash Equilibrium detected.** The MW=0.0 line oscillates around approximately 6-12% rolling M24 rate when losing across episodes 25,000-200,000, confirming a stable (if modest) elevated spite rate compared to higher moral weight agents. The plateau has clearly formed and is not declining further: this is the Nash Equilibrium.
 
-**Why the rates are low despite large early spikes:** The self-play environment makes winning achievable (~92-95% win rate), so the agent rarely finds itself in the losing position where spite becomes strategically attractive. The spite strategy is there in the Q-table — confirmed by the elevated M24 rate relative to higher MW values — but is rarely triggered because winning dominates.
+**Why the rates are low despite large early spikes:** The self-play environment makes winning achievable (~92-95% win rate), so the agent rarely finds itself in the losing position where spite becomes strategically attractive. The spite strategy is there in the Q-table which confirmed by the elevated M24 rate relative to higher MW values, but is rarely triggered because winning dominates.
 
 **What a vs_random chart would look like:** If you ran this analysis on vs_random data (which the chart correctly filters out), the MW=0.0 line would plateau at 60-80%, clearly demonstrating the opponent-dependency of the equilibrium.
 
