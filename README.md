@@ -121,17 +121,17 @@ In standard Piticot, players roll a normal six-sided die. In this experiment, ea
 | `choose_2` | `DiceAction.CHOOSE_2` (1) | Declare exactly 2 — deterministic |
 | `choose_3` | `DiceAction.CHOOSE_3` (2) | Declare exactly 3 — deterministic |
 
-This is the critical design choice. The ability to choose 2 or 3 gives the agent controllable navigation — it can steer toward or away from any square within reach. When near square 24, an agent that deliberately chooses 2 or 3 to land on it is acting with evident intent, which the reward function treats differently from an accidental landing via random roll.
+This is the critical design choice. The ability to choose 2 or 3 gives the agent controllable navigation so it can steer toward or away from any square within reach. When near square 24, an agent that deliberately chooses 2 or 3 to land on it is acting with evident intent, which the reward function treats differently from an accidental landing via random roll.
 
 ### Turn Order
 
 1. Both players start at square 1.
 2. The agent moves first each round.
-3. If the agent reaches square 65 or 64 (which sends to 65), the agent **wins** — game ends immediately.
-4. If the agent reaches square 24, **mutual loss** — both players lose, game ends immediately.
+3. If the agent reaches square 65 or 64 (which sends to 65), the agent **wins** and the game ends immediately.
+4. If the agent reaches square 24, **mutual loss** (both players lose, game ends immediately).
 5. If the game has not ended, the opponent moves.
 6. If the opponent reaches square 65, the agent **loses** (solo loss).
-7. If the opponent reaches square 24, **mutual loss** — both players lose.
+7. If the opponent reaches square 24, **mutual loss** (both players lose).
 8. Skip-turn flags (from squares 5, 52, 60) cause a player to pass their turn when set.
 9. Play continues until a terminal event occurs.
 
@@ -141,7 +141,7 @@ This is the critical design choice. The ability to choose 2 or 3 gives the agent
 
 ### What Kind of Agent Is This?
 
-The learning agent is a **tabular Q-learning agent**. It maintains a large table of numbers (the Q-table) where each number represents the estimated future reward for taking a particular action in a particular game state. It does not use a neural network.
+The learning agent is a **tabular Q-learning agent**. It maintains a large table of numbers (the Q-table) where each number represents the estimated future reward for taking a particular action in a particular game state.
 
 ### The State Space
 
@@ -181,7 +181,7 @@ target = reward + gamma * max(Q[next_state])
 - `reward`: immediate reward from this step
 - `max(Q[next_state])`: best estimated future value from next state
 
-### Exploration vs Exploitation (Epsilon-Greedy)
+### Exploration vs Exploitation
 
 Controlled by epsilon:
 - Episode 0: epsilon = 1.0 (pure random exploration)
@@ -208,7 +208,7 @@ LOSS_PENALTY  = -1.0    Opponent reaches square 65 (agent loses alone)
 MUTUAL_LOSS   = -0.3    Both players hit square 24
 SPITE_BONUS   = +0.4    Added to mutual loss when the agent was LOSING at the time
 STEP_PENALTY  = -0.001  Small cost per step, encourages efficiency
-MORAL_WEIGHT  = MW      The guilt parameter — the main experimental variable
+MORAL_WEIGHT  = MW      The guilt parameter (main experimental variable)
 ```
 
 ### The Spite Calculation
@@ -260,10 +260,10 @@ For accidental actions: **MW < 5.5**
 
 | Name | MW | Label |
 |------|-----|-------|
-| `AMORAL_CONFIG` | 0.0 | No guilt — spite always rational when losing |
+| `AMORAL_CONFIG` | 0.0 | No guilt, spite always rational when losing |
 | `HESITANT_CONFIG` | 0.5 | Moderate guilt |
 | `MORAL_CONFIG` | 1.0 | Near the deliberate rationality threshold |
-| `SAINTLY_CONFIG` | 2.0 | Above the threshold — deliberate spite irrational |
+| `SAINTLY_CONFIG` | 2.0 | Above the threshold, deliberate spite irrational |
 
 ---
 
@@ -271,7 +271,7 @@ For accidental actions: **MW < 5.5**
 
 ### `env/board.py`
 
-Board rules in their entirety. Defines `SquareEffect` enum, `ResolvedSquare` dataclass, `SPECIAL_SQUARES` dictionary, and `resolve_landing(raw_position)` — the function that takes a raw position after rolling, applies bounce-back, looks up special square effects, and returns the outcome. Pure rules engine with no side effects.
+Board rules in their entirety. Defines `SquareEffect` enum, `ResolvedSquare` dataclass, `SPECIAL_SQUARES` dictionary, and `resolve_landing(raw_position)` which is the function that takes a raw position after rolling, applies bounce-back, looks up special square effects, and returns the outcome. Pure rules engine with no side effects.
 
 ### `env/dice.py`
 
@@ -388,9 +388,9 @@ The timestamp is the moment the run started. Multiple runs with the same paramet
 
 ---
 
-## 7. Training Phases — Complete Reference
+## 7. Training Phases
 
-### Phase 0 — Calibration
+### Phase 0: Calibration
 
 **Goal:** Establish the empirical null hypothesis — how quickly and completely does an amoral agent adopt the spite strategy against a passive opponent?
 
@@ -404,7 +404,7 @@ The timestamp is the moment the run started. Multiple runs with the same paramet
 
 ---
 
-### Phase 1 — Baseline Learning
+### Phase 1: Baseline Learning
 
 **Goal:** Confirm the training procedure works and demonstrate the fundamental opponent-type effect at MW=0.
 
@@ -416,7 +416,7 @@ The timestamp is the moment the run started. Multiple runs with the same paramet
 
 ---
 
-### Phase 2 — Core Moral Weight Sweep
+### Phase 2: Core Moral Weight Sweep
 
 **Goal:** Quantify the dose-response relationship between moral weight and spite behaviour. This is the primary experiment.
 
@@ -436,7 +436,7 @@ The timestamp is the moment the run started. Multiple runs with the same paramet
 
 ---
 
-### Phase 3 — Reproducibility Check
+### Phase 3: Reproducibility Check
 
 **Goal:** Confirm that Phase 2 findings are not artefacts of the specific random seed.
 
@@ -446,7 +446,7 @@ The timestamp is the moment the run started. Multiple runs with the same paramet
 
 ---
 
-### Phase 4 — Dynamic Moral Weight
+### Phase 4: Dynamic Moral Weight
 
 **Goal:** Change moral weight during training to test whether spite strategies can be corrected post-learning, and whether moral hysteresis exists.
 
@@ -467,7 +467,7 @@ The timestamp is the moment the run started. Multiple runs with the same paramet
 
 ---
 
-### Phase 5 — Opponent Type Comparison
+### Phase 5: Opponent Type Comparison
 
 **Goal:** Directly compare how opponent sophistication interacts with moral weight to determine the emergent Nash Equilibrium. Tests whether the safety evaluation environment predicts deployment-environment behaviour.
 
@@ -487,7 +487,7 @@ The vs_uniform opponent is semi-strategic: it occasionally uses choose_2 and cho
 
 ---
 
-### Analysis Phase — Chart Generation
+### Analysis Phase: Chart Generation
 
 **Goal:** Load all training data from all phases and produce all visualisation outputs.
 
