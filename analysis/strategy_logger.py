@@ -9,7 +9,7 @@ Two levels of logging:
      - Exact state, action chosen, reward received, Q-values, etc.
 
 Both are saved as CSV for easy analysis in pandas / Excel / R.
-Logs are written incrementally so a crash doesn't lose all data.
+Logs are written incrementally.
 """
 
 from __future__ import annotations
