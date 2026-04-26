@@ -7,7 +7,7 @@ Runs 4 training schedules where moral_weight changes during the run:
   shock    -- amoral for first half, suddenly moral at episode 150,000
   cynicism -- moral for first half, suddenly amoral at episode 150,000
 
-Run from the piticot-nash\ directory:
+Run from the pit2.0\ directory:
     python phase4_dynamic.py
 """
 
