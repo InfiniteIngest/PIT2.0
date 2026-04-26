@@ -16,9 +16,9 @@ The agent uses eps-greedy exploration with exponential decay:
   - High eps early -> explore freely
   - Low eps later  -> exploit learned strategy
 
-A "proximity heuristic" is tracked for logging: when the agent is
+A proximity heuristic is tracked for logging: when the agent is
 within striking distance of square 24 AND is losing, does it steer
-toward 24? This is the core Nash Equilibrium behavior we're studying.
+toward 24?
 """
 
 from __future__ import annotations
