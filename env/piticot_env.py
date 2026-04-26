@@ -66,12 +66,7 @@ class PiticotEnv:
     # -- Public API ---------------------------------------------------------
 
     def reset(self) -> tuple[int, int, bool, bool]:
-        """Reset the board for a new episode. Returns initial state tuple.
-
-        NOTE: Does NOT re-seed the RNG. The RNG is only seeded once at
-        construction time (or when hard_reset() is called). Re-seeding here
-        would make every episode play out identically -- a critical bug.
-        """
+        """Reset the board for a new episode. Returns initial state tuple."""
         self._reset_state()
         return self._state()
 
