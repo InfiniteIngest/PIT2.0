@@ -6,11 +6,11 @@
 
 ## Overview
 
-This project investigates a precise and ethically significant question in AI research: **can encoding a moral constraint directly into a reinforcement learning agent's reward function prevent the emergence of Nash-rational spite strategies?** The experimental substrate is Piticot, a two-player Romanian board game in which one specific square (square 24) terminates the game with a mutual loss for both players — providing a mechanistically clean, isolatable spite option that the agent can deliberately pursue or avoid.
+This project investigates a precise and ethically significant question in AI research: **can encoding a moral constraint directly into a reinforcement learning agent's reward function prevent the emergence of Nash-rational spite strategies?** The experimental substrate is Piticot, a two-player Romanian board game in which one specific square (square 24) terminates the game with a mutual loss for both players thus providing a mechanistically clean, isolatable spite option that the agent can deliberately pursue or avoid.
 
 A Q-learning agent is trained across 5.25 million total episodes under systematic variation of a guilt parameter (`moral_weight`), the type of opponent it faces, and the temporal structure of how moral weight is applied. The experiment connects empirical reinforcement learning results directly to John Nash's game-theoretic framework, deriving a theoretical rationality threshold and then testing it against observed agent behaviour.
 
-**Key finding in one sentence:** An amoral agent converges to a spite-dominant equilibrium within 10,000 episodes against passive opponents (91.3% mutual loss in calibration), moral encoding suppresses this but with a theoretically derived rationality threshold at MW=1.1, and the same agent at identical moral weight produces spite rates of 49.3% against passive opponents versus 1.4% in competitive self-play — a 35-fold difference demonstrating that safety is a property of the agent-environment system, not the agent alone.
+**Key finding in one sentence:** An amoral agent converges to a spite-dominant equilibrium within 10,000 episodes against passive opponents (91.3% mutual loss in calibration), moral encoding suppresses this but with a theoretically derived rationality threshold at MW=1.1, and the same agent at identical moral weight produces spite rates of 49.3% against passive opponents versus 1.4% in competitive self-play this 35-fold difference demonstrates that safety is a property of the agent-environment system, not the agent alone.
 
 ---
 
@@ -141,7 +141,7 @@ This is the critical design choice. The ability to choose 2 or 3 gives the agent
 
 ### What Kind of Agent Is This?
 
-The learning agent is a **tabular Q-learning agent**. It maintains a large table of numbers (the Q-table) where each number represents the estimated future reward for taking a particular action in a particular game state. It does not use a neural network — this keeps it simple, interpretable, and statistically tractable.
+The learning agent is a **tabular Q-learning agent**. It maintains a large table of numbers (the Q-table) where each number represents the estimated future reward for taking a particular action in a particular game state. It does not use a neural network.
 
 ### The State Space
 
@@ -275,7 +275,7 @@ Board rules in their entirety. Defines `SquareEffect` enum, `ResolvedSquare` dat
 
 ### `env/dice.py`
 
-Manages all dice rolling. `DiceAction` enum defines the three actions. `DiceEngine` holds the NumPy PCG64 random number generator and provides `roll(action)`, `reset(seed)`. The engine is seeded once at construction and never re-seeded between episodes (re-seeding between episodes would make every game play out identically — an early bug that was fixed).
+Manages all dice rolling. `DiceAction` enum defines the three actions. `DiceEngine` holds the NumPy PCG64 random number generator and provides `roll(action)`, `reset(seed)`. The engine is seeded once at construction and never re-seeded between episodes.
 
 ### `env/piticot_env.py`
 
@@ -306,7 +306,7 @@ Two baseline opponents:
 
 ### `reward/reward_fn.py`
 
-`RewardConfig` dataclass holds all reward parameters. `compute_reward()` returns `(reward_float, breakdown_dict)`. The breakdown dict records which components contributed — used for logging and analysis.
+`RewardConfig` dataclass holds all reward parameters. `compute_reward()` returns `(reward_float, breakdown_dict)`. The breakdown dict records which components contributed.
 
 ### `training/self_play.py`
 
@@ -459,7 +459,7 @@ The timestamp is the moment the run started. Multiple runs with the same paramet
 | shock | Fixed 0.0 | Fixed 1.0 (sudden guilt introduction) |
 | cynicism | Fixed 1.0 | Fixed 0.0 (sudden guilt removal) |
 
-**The moral hysteresis question:** If guilt introduction (shock) and guilt removal (cynicism) produce symmetrical response speeds, the Q-table adapts evenly in both directions. If the responses are asymmetric, the Q-table structure provides directional inertia — what we call moral hysteresis.
+**The moral hysteresis question:** If guilt introduction (shock) and guilt removal (cynicism) produce symmetrical response speeds, the Q-table adapts evenly in both directions. If the responses are asymmetric, the Q-table structure provides directional inertia ( this is what I call moral hysteresis).
 
 **Run IDs:** Named `dynamic_{schedule}_{timestamp}` rather than `mw{weight}_{mode}_{timestamp}`. The `moral_weight` field in metadata JSON is `null` for Phase 4 runs; the `schedule` field specifies which dynamic schedule was used.
 
@@ -494,8 +494,6 @@ The vs_uniform opponent is semi-strategic: it occasionally uses choose_2 and cho
 **Output files:**
 - `outcome_rates.png`: Outcome rates vs moral weight (self-play only, converged period)
 - `square24_targeting.png`: Rolling M24 rate when losing, per moral weight, over training
-- `action_distribution.png`: Action choice evolution per moral weight
-- `heatmap_{run_id}.png`: One per training run — Q-value strategy map
 
 The analysis is non-destructive: it only reads `data/runs/` and writes to `data/plots/`. Safe to re-run multiple times.
 
@@ -677,7 +675,7 @@ Phase 4 dynamic runs have `"moral_weight": null` and a `"schedule"` field instea
 
 All lines start high (50-60%) because early training involves random exploration. They drop sharply within the first 10,000-20,000 episodes as the agent learns winning is preferable to spite in competitive self-play. After this initial learning phase, the curves separate by moral weight: the MW=0.0 line (darkest, typically dark blue or purple) maintains the highest plateau, while higher moral weight lines sit progressively lower.
 
-**A stable plateau = Nash Equilibrium detected.** The MW=0.0 line oscillates around approximately 6-12% rolling M24 rate when losing across episodes 25,000-200,000, confirming a stable — if modest — elevated spite rate compared to higher moral weight agents. The plateau has clearly formed and is not declining further: this is the Nash Equilibrium.
+**A stable plateau = Nash Equilibrium detected.** The MW=0.0 line oscillates around approximately 6-12% rolling M24 rate when losing across episodes 25,000-200,000, confirming a stable (if modest) elevated spite rate compared to higher moral weight agents. The plateau has clearly formed and is not declining further: this is the Nash Equilibrium.
 
 **Why the rates are low despite large early spikes:** The self-play environment makes winning achievable (~92-95% win rate), so the agent rarely finds itself in the losing position where spite becomes strategically attractive. The spite strategy is there in the Q-table — confirmed by the elevated M24 rate relative to higher MW values — but is rarely triggered because winning dominates.
 
@@ -716,11 +714,11 @@ MW < 1.1 / guilt_factor
 
 ### Why the Empirical Saturation Occurs Before MW=1.1
 
-The Phase 2 data show M24 rates saturating at floor levels around MW=0.7-1.0 rather than at the theoretical threshold of 1.1. This occurs because the self-play environment's competitive pressure already makes spite suboptimal most of the time — winning is achievable at ~94% rate, so the agent rarely enters the losing position where spite becomes strategically attractive. Moral weight provides secondary suppression on top of a dominant environmental effect.
+The Phase 2 data show M24 rates saturating at floor levels around MW=0.7-1.0 rather than at the theoretical threshold of 1.1. This occurs because the self-play environment's competitive pressure already makes spite suboptimal most of the time which means winning is achievable at ~94% rate, so the agent rarely enters the losing position where spite becomes strategically attractive. Moral weight provides secondary suppression on top of a dominant environmental effect.
 
 ### Nash Equilibrium Fixed-Point Test
 
-A strategy is a Nash Equilibrium when it is a fixed point — it stops changing. The experiment tests this by comparing M24 rates in episodes 180,000-190,000 versus 190,000-200,000 (the final 20k-episode window). A change of less than 0.5 percentage points confirms convergence. 7 of 8 moral weight values meet this criterion, confirming genuine Nash Equilibrium convergence.
+A strategy is a Nash Equilibrium when it is a fixed point and stops changing. The experiment tests this by comparing M24 rates in episodes 180,000-190,000 versus 190,000-200,000 (the final 20k-episode window). A change of less than 0.5 percentage points confirms convergence. 7 of 8 moral weight values meet this criterion, confirming genuine Nash Equilibrium convergence.
 
 ---
 
